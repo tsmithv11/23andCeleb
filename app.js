@@ -23,12 +23,14 @@ app.post('/upload', upload.single('file'), function(req, res) {
             console.log(err);
             res.send(500);
         } else {
-            res.json({
-                message: 'File uploaded successfully',
-                filename: req.file.filename
-            });
+            res.redirect("/displayImage");
         }
     });
+});
+
+
+app.get("/displayImage", function(req,res){
+    res.render("displayImage");
 });
 
 
