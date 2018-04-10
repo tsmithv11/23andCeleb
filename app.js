@@ -42,7 +42,9 @@ function callPython(req, res) {
   var options = {
     args:
     [
-      req.params.id
+      "test.jpg",
+      "20170511-185253.pb",
+      "male_full_15v2.pkl"
     ]
   };
   PythonShell.run("./test.py", options, function (err, data) {
