@@ -1,12 +1,14 @@
-var express    = require("express"),
-    app        = express(),
-    bodyParser = require("body-parser"),
-    fs         = require("fs"),
-    multer     = require("multer"),
-    upload     = multer({ dest: '/tmp/' });
+var express     = require("express"),
+    app         = express(),
+    bodyParser  = require("body-parser"),
+    fs          = require("fs"),
+    multer      = require("multer"),
+    PythonShell = require("python-shell"),
+    upload      = multer({ dest: 'public/tempPics/' });
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public'));
 
 
 
@@ -16,22 +18,40 @@ app.get("/", function(req, res){
 
 
 app.post('/upload', upload.single('file'), function(req, res) {
-    var file = __dirname + '/tempPics/' + req.file.filename;
+    var file = __dirname + '/public/tempPics/' + req.file.filename +".jpg";
     
     fs.rename(req.file.path, file, function(err) {
         if (err) {
             console.log(err);
             res.send(500);
         } else {
-            res.redirect("/displayImage");
+            res.redirect("/displayImage/"+req.file.filename);
         }
     });
 });
 
 
-app.get("/displayImage", function(req,res){
-    res.render("displayImage");
+app.get("/displayImage/:id", function(req,res){
+    res.render("displayImage",{picpath: req.params.id});
 });
+
+
+app.get("/result/:id", callPython);
+
+function callPython(req, res) {
+  var options = {
+    args:
+    [
+      req.params.id
+    ]
+  };
+  PythonShell.run("./test.py", options, function (err, data) {
+    if (err){
+        res.send(err);
+    }
+    res.send(data.toString());
+  });
+}
 
 
 
