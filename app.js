@@ -47,7 +47,7 @@ function callPython(req, res) {
       "male_full_15v2.pkl"
     ]
   };
-  PythonShell.run("./python/predict.py", options, function (err, data) {
+  PythonShell.run("./python/test.py", options, function (err, data) {
     if (err){
         res.send(err);
     }
