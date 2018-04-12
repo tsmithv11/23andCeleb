@@ -1,4 +1,3 @@
-!apt update && apt install -y libsm6 libxext6
 
 from __future__ import absolute_import
 from __future__ import division
