@@ -45,7 +45,7 @@ function callPython(req, res) {
       "Test String"
     ]
   };
-  PythonShell.run("./test.py", options, function (err, data) {
+  PythonShell.run("./python/test.py", options, function (err, data) {
     if (err){
         res.send(err);
     }
