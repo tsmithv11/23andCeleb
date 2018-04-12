@@ -32,14 +32,14 @@ from __future__ import print_function
 import tensorflow as tf
 import numpy as np
 import argparse
-import facenet
+#import facenet
 import os
 import sys
 import math
 import pickle
 from sklearn.svm import SVC
 from scipy import misc
-import detect_face
+import align.detect_face
 from six.moves import xrange
 from tensorflow.python.platform import gfile
 
@@ -113,7 +113,7 @@ def load_and_align_data(image_paths, image_size, margin, gpu_memory_fraction):
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
         sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
         with sess.as_default():
-            pnet, rnet, onet = detect_face.create_mtcnn(sess, None)
+            pnet, rnet, onet = align.detect_face.create_mtcnn(sess, None)
   
     nrof_samples = len(image_paths)
     img_list = [] 
@@ -121,7 +121,7 @@ def load_and_align_data(image_paths, image_size, margin, gpu_memory_fraction):
     for i in xrange(nrof_samples):
         img = misc.imread(os.path.expanduser(image_paths[i]))
         img_size = np.asarray(img.shape)[0:2]
-        bounding_boxes, _ = detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
+        bounding_boxes, _ = align.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
         count_per_image.append(len(bounding_boxes))
         for j in range(len(bounding_boxes)):	
                 det = np.squeeze(bounding_boxes[j,0:4])
