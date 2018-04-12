@@ -42,10 +42,12 @@ function callPython(req, res) {
   var options = {
     args:
     [
-      "Test String"
+      "jblumenstock_2.jpg",
+      "data/20170511-185253.pb",
+      "male_full_15v2.pkl"
     ]
   };
-  PythonShell.run("./python/test.py", options, function (err, data) {
+  PythonShell.run("./python/predict.py", options, function (err, data) {
     if (err){
         res.send(err);
     }
