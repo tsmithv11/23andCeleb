@@ -51,7 +51,6 @@ function callPython(req, res) {
     if (err){
         res.send(err);
     }
-    console.log(data);
     res.send(data.toString());
   });
 }
